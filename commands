@@ -1,0 +1,7 @@
+docker pull docker.elastic.co/elasticsearch/elasticsearch:6.1.1
+docker pull docker.elastic.co/kibana/kibana:6.1.1
+
+docker run -d -p 9200:9200 -p 9300:9300 -h elasticsearch --name elasticsearch docker.elastic.co/elasticsearch/elasticsearch:6.1.1
+docker run -d -p 5601:5601 -h kibana --name kibana --link elasticsearch:elasticsearch docker.elastic.co/kibana/kibana:6.1.1
+docker build -t logstash .
+docker run -it -p 9500:9500 -h logstash --name logstash --rm --link elasticsearch:elasticsearch logstash
